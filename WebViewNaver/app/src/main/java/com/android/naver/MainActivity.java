@@ -1,4 +1,4 @@
-package org.techtown.test;
+package com.android.naver;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,5 +11,4 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-
 }
