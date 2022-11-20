@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Toast;
 
 public class WebViewActivity extends AppCompatActivity {
     private WebView mWebView;
@@ -35,5 +37,17 @@ public class WebViewActivity extends AppCompatActivity {
         mWebSettings.setDomStorageEnabled(true);
 
         mWebView.loadUrl(webViewIntent.getStringExtra("urlName"));
+    }
+
+    public void onClickCloseBtn(View v) {
+        Intent webViewIntent = getIntent();
+        String urlName = webViewIntent.getStringExtra("urlName");
+        if (urlName.equals("Https://m.naver.com")) {
+            Toast.makeText(this, "네이버 웹뷰가 종료되었습니다.", Toast.LENGTH_SHORT).show();
+        } else if (urlName.equals("https://www.google.com/")) {
+            Toast.makeText(this, "구글 웹뷰가 종료되었습니다.", Toast.LENGTH_SHORT).show();
+        } 
+        
+
     }
 }
