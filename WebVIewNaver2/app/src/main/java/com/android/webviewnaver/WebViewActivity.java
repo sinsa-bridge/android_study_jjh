@@ -3,8 +3,11 @@ package com.android.webviewnaver;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -20,6 +23,7 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_web_view);
 
         Intent webViewIntent = getIntent();
+        Intent progressIntent = new Intent(this, ProgressActivity.class);
 
         mWebView = (WebView) findViewById(R.id.webView);
 
@@ -37,17 +41,35 @@ public class WebViewActivity extends AppCompatActivity {
         mWebSettings.setDomStorageEnabled(true);
 
         mWebView.loadUrl(webViewIntent.getStringExtra("urlName"));
+
+        mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                startActivity(progressIntent);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+            }
+        });
     }
+
+
 
     public void onClickCloseBtn(View v) {
         Intent webViewIntent = getIntent();
+        Intent mainIntent = new Intent(this, MainActivity.class);
+
         String urlName = webViewIntent.getStringExtra("urlName");
         if (urlName.equals("Https://m.naver.com")) {
             Toast.makeText(this, "네이버 웹뷰가 종료되었습니다.", Toast.LENGTH_SHORT).show();
         } else if (urlName.equals("https://www.google.com/")) {
             Toast.makeText(this, "구글 웹뷰가 종료되었습니다.", Toast.LENGTH_SHORT).show();
-        } 
-        
+        }
 
+        finish();
+        startActivity(mainIntent);
     }
 }
