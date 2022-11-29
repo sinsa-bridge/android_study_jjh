@@ -11,11 +11,13 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class WebViewActivity extends AppCompatActivity {
     private WebView mWebView;
     private WebSettings mWebSettings;
+    private TextView mtextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class WebViewActivity extends AppCompatActivity {
         Intent progressIntent = new Intent(this, ProgressActivity.class);
 
         mWebView = (WebView) findViewById(R.id.webView);
+        mtextView = (TextView) findViewById(R.id.textView);
 
         mWebView.setWebViewClient(new WebViewClient());
         mWebSettings = mWebView.getSettings();
@@ -43,21 +46,24 @@ public class WebViewActivity extends AppCompatActivity {
         mWebView.loadUrl(webViewIntent.getStringExtra("urlName"));
 
         mWebView.setWebViewClient(new WebViewClient() {
+
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                startActivity(progressIntent);
+
+                mWebView.setVisibility(View.INVISIBLE);
+                mtextView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
 
+                mWebView.setVisibility(View.VISIBLE);
+                mtextView.setVisibility(View.INVISIBLE);
             }
         });
     }
-
-
 
     public void onClickCloseBtn(View v) {
         Intent webViewIntent = getIntent();
