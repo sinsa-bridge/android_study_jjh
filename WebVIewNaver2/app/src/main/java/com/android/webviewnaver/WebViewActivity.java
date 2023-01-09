@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -45,6 +46,8 @@ public class WebViewActivity extends AppCompatActivity {
 
         mWebView.loadUrl(webViewIntent.getStringExtra("urlName"));
 
+
+
         mWebView.setWebViewClient(new WebViewClient() {
 
             @Override
@@ -63,6 +66,8 @@ public class WebViewActivity extends AppCompatActivity {
                 mtextView.setVisibility(View.INVISIBLE);
             }
         });
+
+        mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
     }
 
     public void onClickCloseBtn(View v) {

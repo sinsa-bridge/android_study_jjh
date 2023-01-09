@@ -5,6 +5,14 @@ public class ContactVO {
     String phonenum;
     String name;
 
+    public ContactVO() {}
+
+    public ContactVO(long photoid, String phonenum, String name) {
+        this.photoid = photoid;
+        this.phonenum = phonenum;
+        this.name = name;
+    }
+
     public long getPhotoid() {
         return photoid;
     }

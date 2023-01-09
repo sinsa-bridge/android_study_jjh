@@ -52,4 +52,10 @@ public class MainActivity extends AppCompatActivity {
         Intent getCotactIntent = new Intent(this, GetContactActivity.class);
         startActivity(getCotactIntent);
     }
+
+    public void onCLickWebViewBridgeBtn(View v) {
+        Intent webViewIntent = new Intent(this, WebViewActivity.class);
+        webViewIntent.putExtra("urlName", "http://10.0.2.2:8080/profile/webViewTest");
+        startActivity(webViewIntent);
+    }
 }

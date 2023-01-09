@@ -2,10 +2,12 @@ package com.android.webviewnaver;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,6 +15,10 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +31,32 @@ public class GetContactActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_getcontact);
 
-        ArrayList<ContactVO> contactVO = getContactList();
+        ArrayList<ContactVO> contactVOList = getContactList();
 
-        ListView listView = (ListView) findViewById((R.id.listview_contactList));
+        //json parsing
+        JSONObject obj = new JSONObject();
+        try {
+            JSONArray jArray = new JSONArray();
+
+            for (int i = 0; i < contactVOList.size(); i++) {
+                JSONObject sObject = new JSONObject();
+                sObject.put("photoid", contactVOList.get(i).photoid);
+                sObject.put("phonenum", contactVOList.get(i).phonenum);
+                sObject.put("name", contactVOList.get(i).name);
+                jArray.put(sObject);
+            }
+            obj.put("item", jArray);
+            System.out.println("item :: " + jArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        /* 리스트뷰 */
+        /*ListView listView = (ListView) findViewById((R.id.listview_contactList));
         final ContactAdapter contactAdapter = new ContactAdapter(this, contactVO);
 
-        listView.setAdapter(contactAdapter);
+        listView.setAdapter(contactAdapter);*/
 
 
 
