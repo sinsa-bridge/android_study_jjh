@@ -15,6 +15,13 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
 public class WebViewActivity extends AppCompatActivity {
     private WebView mWebView;
     private WebSettings mWebSettings;
@@ -44,10 +51,28 @@ public class WebViewActivity extends AppCompatActivity {
         mWebSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         mWebSettings.setDomStorageEnabled(true);
 
-        mWebView.loadUrl(webViewIntent.getStringExtra("urlName"));
+        if (webViewIntent.getStringExtra("flag") != null) {
+            if (webViewIntent.getStringExtra("contactVOList") != null) {
+                try {
+                    System.out.println("flagTest :: 1");
+                    //JSONObject contactVOList = new JSONObject(webViewIntent.getStringExtra("contactVOList"));
+                    String contactVOList = webViewIntent.getStringExtra("contactVOList");
+                    String url = "http://10.0.2.2:8080/profile/webViewTestResult";
+                    String postData = "contactVOList=" + URLEncoder.encode(contactVOList, "UTF-8");
+                    mWebView.postUrl(url, postData.getBytes());
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("flagTest :: 2");
+                mWebView.loadUrl("http://10.0.2.2:8080/profile/webViewTestResult?falgMsg=등록된 연락처가 없습니다.");
+            }
+        } else {
+            System.out.println("flagTest :: 3");
+            mWebView.loadUrl(webViewIntent.getStringExtra("urlName"));
+        }
 
-
-
+        mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
         mWebView.setWebViewClient(new WebViewClient() {
 
             @Override
@@ -67,7 +92,7 @@ public class WebViewActivity extends AppCompatActivity {
             }
         });
 
-        mWebView.addJavascriptInterface(new WebAppInterface(this), "Android");
+
     }
 
     public void onClickCloseBtn(View v) {

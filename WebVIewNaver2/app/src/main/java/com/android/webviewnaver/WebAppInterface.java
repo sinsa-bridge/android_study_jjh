@@ -36,8 +36,8 @@ public class WebAppInterface {
         *
         * */
 
+        Intent intent = new Intent(mContext, GetContactActivity.class);
+        mContext.startActivity(intent);
 
     }
-
-
 }

@@ -34,7 +34,6 @@ public class GetContactActivity extends AppCompatActivity {
         ArrayList<ContactVO> contactVOList = getContactList();
 
         //json parsing
-        JSONObject obj = new JSONObject();
         try {
             JSONArray jArray = new JSONArray();
 
@@ -45,8 +44,14 @@ public class GetContactActivity extends AppCompatActivity {
                 sObject.put("name", contactVOList.get(i).name);
                 jArray.put(sObject);
             }
-            obj.put("item", jArray);
-            System.out.println("item :: " + jArray);
+
+            Intent intent = new Intent(GetContactActivity.this, WebViewActivity.class);
+            intent.putExtra("flag", "contactJson");
+            String jArrayStr = jArray.toString();
+            System.out.println("jArrayStr ::" + jArrayStr);
+            intent.putExtra("contactVOList", jArrayStr);
+            startActivity(intent);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
